@@ -4,18 +4,15 @@ import { makeFolder, Folder } from './folder'
 import { makeFile, File } from './file'
 
 
-export type FolderStructure = (Folder | File)[]
-
-
-const structure = (folders: FolderStructure, root: string = process.cwd()) => forEach(folders, value => {
-	if (is(Folder, value)) {
-		const { name, inner } = value
-		const folderPath = makeFolder(root, name)
-		structure(inner, folderPath)
+const structure = (folders: Folder, root: string = process.cwd()) => forEach(Object.entries(folders), value => {
+	const [name, item] = value
+	if (is(File, item)) {
+		makeFile(root, name, item.content)
 	}
-	// else if (isFile(value)) {
-
-	// }
+	else {
+		const folderPath = makeFolder(root, name)
+		structure(item, folderPath)
+	}
 })
 
 export default structure
