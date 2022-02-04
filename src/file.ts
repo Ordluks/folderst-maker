@@ -13,7 +13,7 @@ export class File {
 	}
 }
 
-export const file = (content?: FileContent) => new File(content || '')
+export const file = (content: FileContent = '') => new File(content)
 
 export const makeFile = (path: string, name: string, content: FileContent) => {
 	const fileContent = isString(content) ? content : JSON.stringify(content, null, 2)

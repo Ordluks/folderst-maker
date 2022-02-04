@@ -8,9 +8,7 @@ export type Folder = {
 }
 
 export const makeFolder = (path: string, name: string) => {
-	if (existsSync(path)) {
-		const folderPath = resolve(path, name)
-		mkdirSync(folderPath)
-		return folderPath
-	}
+	const folderPath = resolve(path, name)
+	mkdirSync(folderPath, { recursive: true })
+	return folderPath
 }
