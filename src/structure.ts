@@ -8,7 +8,7 @@ const structure = (folders: Folder, root: string = process.cwd()) => {
 	forEach(Object.entries(folders), value => {
 		const [name, item] = value
 		if (is(File, item)) {
-			makeFile(root, name, item.content)
+			makeFile(root, name, item.content, item.encoding)
 		}
 		else {
 			const folderPath = makeFolder(root, name)
