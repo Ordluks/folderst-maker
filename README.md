@@ -28,18 +28,19 @@ Args
 Return ``void``
 
 ```javascript 
-structure(folders, root)
+structure({}, 'rootPath')
 ```
 
 ### file
 
 Args
 - content (Optianal): FileContent - thats will write in file, default value is empty string
+- encoding (Optional): BufferEncoding - file encoding, ``'utf-8'`` as default
 
-Return ``new File``
+Return ``new File()``
 
 ```javascript
-file(content)
+file('content', 'utf-8')
 ```
 
 ### Folder Object
@@ -62,4 +63,4 @@ file('some content')
 ```
 
 ### FileContent
-May be a ``string``, ``Object`` or ``Array``. While file creating given object or array are transform to text format.
+May be ``string``, ``number``, ``Buffer`` or ``Object``. While file creating given object or array are transform to text format.
