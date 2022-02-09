@@ -1,9 +1,10 @@
 import { existsSync, writeFileSync } from 'fs'
-import { isString } from 'lodash'
+import { isArray, isBuffer, isNumber, isObject, isString } from 'lodash'
 import { resolve } from 'path'
+import conventFileContent from './conventFileContent'
 
 
-export type FileContent = string | Object | Array<any>
+export type FileContent = string | number | Buffer | Object
 
 export class File {
 	content: FileContent
@@ -18,6 +19,6 @@ export class File {
 export const file = (content: FileContent = '', encoding: BufferEncoding = 'utf-8') => new File(content, encoding)
 
 export const makeFile = (path: string, name: string, content: FileContent, encoding: BufferEncoding) => {
-	const fileContent = isString(content) ? content : JSON.stringify(content, null, 2)
+	const fileContent = conventFileContent(content)
 	if (existsSync(path)) writeFileSync(resolve(path, name), fileContent, { encoding })
 }
