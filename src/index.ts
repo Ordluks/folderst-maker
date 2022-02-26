@@ -1,5 +1,7 @@
-import structureMaker from './structure'
-import { file as fileFabric } from './file'
+import structure from './structure'
+import { file } from './file'
 
-export const file = fileFabric
-export const structure = structureMaker
+export = {
+	structure,
+	file
+}
