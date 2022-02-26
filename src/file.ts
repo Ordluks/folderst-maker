@@ -1,14 +1,14 @@
 import { existsSync, writeFileSync } from 'fs'
-import { isArray, isBuffer, isNumber, isObject, isString } from 'lodash'
 import { resolve } from 'path'
+import { is } from 'ramda'
 import conventFileContent from './conventFileContent'
 
 
 export type FileContent = string | number | Buffer | Object
 
 export class File {
-	content: FileContent
-	encoding: BufferEncoding
+	readonly content: FileContent
+	readonly encoding: BufferEncoding
 
 	constructor(content: FileContent, encoding: BufferEncoding) {
 		this.content = content,

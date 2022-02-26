@@ -3,8 +3,8 @@ declare module 'folderst-maker' {
 	export function file(content?: FileContent, encoding?: BufferEncoding): File
 
 	class File {
-		content: FileContent
-		encoding: BufferEncoding
+		readonly content: FileContent
+		readonly encoding: BufferEncoding
 		constructor(content: FileContent, encoding: BufferEncoding)
 	}
 
