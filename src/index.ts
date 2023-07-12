@@ -1,22 +1,22 @@
 import {
   createStructureDescriptor,
-	makeStructure,
-	makeStructureSync,
-	structure,
-  structureSync,
+  makeStructure,
+  makeStructureSync,
+  structure,
+  structureSync
 } from './structure'
 import { DirectoryDescriptor } from './directory'
-import { FileDescriptor, FileInfo, file } from './file'
+import { FileInfo, FileDescriptor, file } from './file'
 
 export = {
-	DirectoryDescriptor,
-	FileDescriptor,
-	FileInfo,
+  DirectoryDescriptor,
+  FileDescriptor,
+  FileInfo,
 
   createStructureDescriptor,
-	makeStructure,
-	makeStructureSync,
-	structure,
+  makeStructure,
+  makeStructureSync,
+  structure,
   structureSync,
   file
 }
