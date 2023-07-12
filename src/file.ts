@@ -31,7 +31,7 @@ const createFileMaker =
   (file: FileDescriptor) => {
     const { path, content } = file
     const fileContent = convertFileContent(content)
-    return fn(resolve(path), fileContent)
+    return fn(path, fileContent)
   }
 
 export const makeFile = createFileMaker(R.partialRight(writeFile, ['utf-8']))

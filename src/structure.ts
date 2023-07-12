@@ -1,7 +1,12 @@
 import R from 'ramda'
 import { resolve } from 'path'
-import { DirectoryInfo, DirectoryDescriptor, makeDirectorySync } from './directory'
-import { FileInfo, FileDescriptor, makeFileSync } from './file'
+import {
+  DirectoryInfo,
+  DirectoryDescriptor,
+  makeDirectory,
+  makeDirectorySync
+} from './directory'
+import { FileInfo, FileDescriptor, makeFile, makeFileSync } from './file'
 
 type FileOrDirectoryDescriptor = FileDescriptor | DirectoryDescriptor
 
@@ -9,7 +14,10 @@ export const createStructureDescriptor = (
   info: DirectoryInfo,
   path: string
 ): DirectoryDescriptor => {
-  const mapInfo = (info: DirectoryInfo, path: string): FileOrDirectoryDescriptor[] =>
+  const mapInfo = (
+    info: DirectoryInfo,
+    path: string
+  ): FileOrDirectoryDescriptor[] =>
     R.reduce(
       (acc, [key, value]) => {
         const itemPath = resolve(path, key)
@@ -31,17 +39,36 @@ export const createStructureDescriptor = (
   }
 }
 
-export const makeSync = (descriptor: DirectoryDescriptor) => {
+export const makeStructure = async (descriptor: DirectoryDescriptor) => {
+  const _make = async (descriptor: DirectoryDescriptor, index: number) => {
+    if (index >= descriptor.content.length) return
+
+    const contentItem = descriptor.content[index]
+
+    if (R.is(FileDescriptor, contentItem)) {
+      await makeFile(contentItem)
+    } else if (R.is(DirectoryDescriptor, contentItem)) {
+      await makeDirectory(contentItem)
+      await makeStructure(contentItem)
+    }
+
+    await _make(descriptor, index + 1)
+  }
+
+  await _make(descriptor, 0)
+}
+
+export const makeStructureSync = (descriptor: DirectoryDescriptor) => {
   const _makeSync = (descriptor: DirectoryDescriptor, index: number) => {
     if (index >= descriptor.content.length) return
 
     const contentItem = descriptor.content[index]
 
-    if(R.is(FileDescriptor, contentItem)) {
+    if (R.is(FileDescriptor, contentItem)) {
       makeFileSync(contentItem)
     } else if (R.is(DirectoryDescriptor, contentItem)) {
       makeDirectorySync(contentItem)
-      makeSync(contentItem)
+      makeStructureSync(contentItem)
     }
 
     _makeSync(descriptor, index + 1)
@@ -50,3 +77,5 @@ export const makeSync = (descriptor: DirectoryDescriptor) => {
   _makeSync(descriptor, 0)
 }
 
+export const structure = R.compose(makeStructure, createStructureDescriptor)
+export const structureSync = R.compose(makeStructureSync, createStructureDescriptor)

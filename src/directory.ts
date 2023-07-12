@@ -1,4 +1,3 @@
-import R from 'ramda'
 import { mkdirSync } from 'fs'
 import { mkdir } from 'fs/promises'
 import { resolve } from 'path'
@@ -18,18 +17,10 @@ export interface DirectoryInfo {
   [key: string]: DirectoryInfo | FileInfo | null
 }
 
-const createDirectoryMaker =
-  <R extends string | undefined | Promise<string | undefined>>(
-    fn: (path: string) => R
-  ) =>
-  (folder: DirectoryDescriptor) => {
-    return fn(resolve(folder.path))
-  }
+export const makeDirectory = async (folder: DirectoryDescriptor) => {
+  await mkdir(folder.path)
+}
 
-export const makeDirectory = createDirectoryMaker(
-  R.partialRight(mkdir, [{ recursive: true }])
-)
-
-export const makeDirectorySync = createDirectoryMaker(
-  R.partialRight(mkdirSync, [{ recursive: true }])
-)
+export const makeDirectorySync = (folder: DirectoryDescriptor) => {
+  mkdirSync(folder.path)
+}
